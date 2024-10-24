@@ -10,6 +10,9 @@ class BubbleSortView(AbstractPage):
     CANVAS_HEIGHT = 300
     DATA_SIZE = 20
 
+    TITLE = "Bubble Sort"
+    DESCRIPTION = "Bubble sort is a sorting algorithm that works by making the highest value bubble up"
+
     def tkraise(self):
         # Override
         super().tkraise()
@@ -18,22 +21,35 @@ class BubbleSortView(AbstractPage):
 
     def create_info_frame(self):
         # Override
-        frame = tk.Frame(self, bg="blue")
-        title = tk.Label(frame, text="Bubble Sort", font=("Arial", 18))
-        title.pack(pady=10)
+        frame = tk.Frame(self, bg="blue", pady=10, padx=10)
+        title = tk.Label(frame, text=self.TITLE, font=("Arial", 18))
+        title.pack(pady=10, anchor=tk.W)
 
-        description = tk.Label(frame, text="some stuff")
-        description.pack()
+        description = tk.Label(frame, text=self.DESCRIPTION)
+        description.pack(anchor=tk.W)
 
-        self.canvas = tk.Canvas(frame, width=self.CANVAS_WIDTH, height=self.CANVAS_HEIGHT)
-        self.canvas.pack()
+        canvas_count_frame = tk.Frame(frame, bg="green")
+        canvas_count_frame.pack(anchor=tk.W, expand=True)
 
-        self.button = tk.Button(frame, text="Bubble Sort", command=self._button_press)
-        self.button.pack()
+        self.canvas = tk.Canvas(canvas_count_frame, width=self.CANVAS_WIDTH, height=self.CANVAS_HEIGHT, borderwidth=1, relief="solid")
+        self.canvas.pack(side=tk.LEFT)
 
-        self.speed_scale = tk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL, label="Speed:")
-        self.speed_scale.pack()
-        self.speed_scale.set(50)
+        self.count_var = tk.IntVar()
+        self.count_var.set(15)
+        self.count_scale = tk.Scale(canvas_count_frame, variable=self.count_var, from_=50, to=5, orient=tk.VERTICAL, label="Count: ")
+        self.count_scale.pack(side=tk.LEFT, fill=tk.Y, padx=10)
+        self.count_scale.bind("<ButtonRelease-1>", lambda e: self._reset_sort())
+
+        controls = tk.Frame(frame, bg="red")
+        controls.pack(anchor=tk.W, expand=True)
+
+        self.button = tk.Button(controls, text="Bubble Sort", command=self._button_press)
+        self.button.pack(side=tk.LEFT)
+
+        self.speed_var = tk.IntVar()
+        self.speed_var.set(25)
+        self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=100, to=1, orient=tk.HORIZONTAL, label="Speed:")
+        self.speed_scale.pack(side=tk.LEFT, padx=10)
 
         return frame
 
@@ -55,7 +71,7 @@ class BubbleSortView(AbstractPage):
             self.canvas.create_rectangle(x0, y0, x1, y1, fill=color)
         self.canvas.update()
 
-    def _bubble_sort(self, speed):
+    def _bubble_sort(self):
         """
         bubble sort with drawing
         """
@@ -66,7 +82,7 @@ class BubbleSortView(AbstractPage):
                 if self.data[j] > self.data[j + 1]:
                     self.data[j], self.data[j + 1] = self.data[j + 1], self.data[j]
                 self._draw_bars([j, j + 1], n - i)
-                time.sleep(speed)
+                time.sleep(self.speed_var.get() / 1000)
         # Draw bars one last time finished
         self._draw_bars(highlight_index=0)
         # change button
@@ -82,11 +98,11 @@ class BubbleSortView(AbstractPage):
 
     def _start_sort(self):
         self.button["state"] = "disabled"
-        speed = self.speed_scale.get() / 1000
-        self._bubble_sort(speed)
+        # speed = self.speed_scale.get() / 1000
+        self._bubble_sort()
 
     def _reset_sort(self):
         self.sorted = False
-        self.data = [random.randint(10, 100) for _ in range(self.DATA_SIZE)]
+        self.data = [random.randint(10, 100) for _ in range(self.count_var.get())]
         self.button["text"] = "Bubble Sort"
         self._draw_bars()
