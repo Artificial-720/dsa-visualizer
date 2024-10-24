@@ -1,17 +1,17 @@
 import time
 import random
 import tkinter as tk
-from views.abstractpage import AbstractPage
+from views.base_view import AbstractPage
 
 
-class SelectionSortView(AbstractPage):
+class BaseSortView(AbstractPage):
 
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 300
     DATA_SIZE = 20
 
-    TITLE = "Selection Sort"
-    DESCRIPTION = "Selection sort is a sorting algorithm that works by finding the smallest value and placing that value at the start of the array"
+    TITLE = ""
+    DESCRIPTION = ""
 
     def tkraise(self):
         # Override
@@ -48,7 +48,7 @@ class SelectionSortView(AbstractPage):
 
         self.speed_var = tk.IntVar()
         self.speed_var.set(25)
-        self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=100, to=1, orient=tk.HORIZONTAL, label="Speed:")
+        self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=100, to=1, orient=tk.HORIZONTAL, label="Speed:", showvalue=0)
         self.speed_scale.pack(side=tk.LEFT, padx=10)
 
         return frame
@@ -71,30 +71,6 @@ class SelectionSortView(AbstractPage):
             self.canvas.create_rectangle(x0, y0, x1, y1, fill=color)
         self.canvas.update()
 
-    def _selection_sort(self):
-        """
-        selection sort with drawing
-        """
-        # TODO change to a generator, that yeilds the next step
-        completed = []
-        n = len(self.data)
-        for i in range(n - 1):
-            min_index = i
-            for j in range(i + 1, n):
-                if self.data[j] < self.data[min_index]:
-                    min_index = j
-                self._draw_bars([j, min_index], completed)
-                time.sleep(self.speed_var.get() / 1000)
-            self.data[i], self.data[min_index] = self.data[min_index], self.data[i]
-            completed.append(i)
-
-        # Draw bars one last time finished
-        self._draw_bars(completed=[i for i in range(n)])
-        # change button
-        self.button["text"] = "Reset"
-        self.button["state"] = "active"
-        self.sorted = True
-
     def _button_press(self):
         if self.sorted:
             self._reset_sort()
@@ -104,10 +80,13 @@ class SelectionSortView(AbstractPage):
     def _start_sort(self):
         self.button["state"] = "disabled"
         # speed = self.speed_scale.get() / 1000
-        self._selection_sort()
+        self.sort()
 
     def _reset_sort(self):
         self.sorted = False
         self.data = [random.randint(10, 100) for _ in range(self.count_var.get())]
         self.button["text"] = self.TITLE
         self._draw_bars()
+
+    def sort(self):
+        raise NotImplementedError
