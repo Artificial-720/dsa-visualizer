@@ -1,7 +1,7 @@
 import tkinter as tk
 from views.home_view import HomePage
-from views.bubblesort_view import BubbleSortView
-from views.selectionsort_view import SelectionSortView
+from views.bubble_sort_view import BubbleSortView
+from views.selection_sort_view import SelectionSortView
 from views.insertion_sort_view import InsertionSortView
 
 
