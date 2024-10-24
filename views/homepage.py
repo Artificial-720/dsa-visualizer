@@ -1,13 +1,14 @@
 import tkinter as tk
 
 
-def create_list_frame(container):
+def create_list_frame(container, controller):
     # Scroll bar
     # https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
     frame = tk.Frame(container, bg="blue")
 
     for b in ["title1", "title2", "title3"]:
-        tk.Button(frame, text=b)
+        tk.Button(frame, text=b,
+                  command=lambda: controller.show_frame('SelectionSortView'))
 
     for widget in frame.winfo_children():
         widget.pack(anchor="w", padx=5, pady=5)
@@ -15,14 +16,14 @@ def create_list_frame(container):
     return frame
 
 
-def create_selection_frame(container):
+def create_selection_frame(container, controller):
     frame = tk.Frame(container, bg="grey")
     # Title
     label = tk.Label(frame, text="Hello world!", justify=tk.LEFT, font=("Arial", 16, "bold"))
     label.pack(side=tk.TOP, fill=tk.X, pady=5)
 
     # List
-    list_frame = create_list_frame(frame)
+    list_frame = create_list_frame(frame, controller)
     list_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     return frame
@@ -58,7 +59,7 @@ class HomePage(tk.Frame):
                             command=lambda: controller.show_frame(PageOne))
         button1.pack()
         """
-        selection_frame = create_selection_frame(self)
+        selection_frame = create_selection_frame(self, controller)
         selection_frame["borderwidth"] = 5
         selection_frame["relief"] = "sunken"
         selection_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)

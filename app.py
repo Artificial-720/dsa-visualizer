@@ -3,6 +3,7 @@ from views.homepage import HomePage
 from views.pageone import PageOne
 from views.pagetwo import PageTwo
 from views.bubblesort import BubbleSortView
+from views.selectionsort import SelectionSortView
 
 
 class App(tk.Tk):
@@ -19,7 +20,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Initialize each view saving in dictionary
-        for F in (HomePage, PageOne, PageTwo, BubbleSortView):
+        for F in (HomePage, PageOne, PageTwo, BubbleSortView, SelectionSortView):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)

@@ -4,14 +4,14 @@ import tkinter as tk
 from views.abstractpage import AbstractPage
 
 
-class BubbleSortView(AbstractPage):
+class SelectionSortView(AbstractPage):
 
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 300
     DATA_SIZE = 20
 
-    TITLE = "Bubble Sort"
-    DESCRIPTION = "Bubble sort is a sorting algorithm that works by making the highest value bubble up"
+    TITLE = "Selection Sort"
+    DESCRIPTION = "Selection sort is a sorting algorithm that works by finding the smallest value and placing that value at the start of the array"
 
     def tkraise(self):
         # Override
@@ -53,7 +53,7 @@ class BubbleSortView(AbstractPage):
 
         return frame
 
-    def _draw_bars(self, checking=[], highlight_index=-1):
+    def _draw_bars(self, checking=[], completed=[]):
         """
         Draws bars on a canvas
         """
@@ -67,24 +67,29 @@ class BubbleSortView(AbstractPage):
             y0 = canvas_height - (value / max_value) * canvas_height
             x1 = (i + 1) * bar_width
             y1 = canvas_height
-            color = "red" if i in checking else "green" if i >= highlight_index and highlight_index != -1 else "gray"
+            color = "red" if i in checking else "green" if i in completed else "gray"
             self.canvas.create_rectangle(x0, y0, x1, y1, fill=color)
         self.canvas.update()
 
-    def _bubble_sort(self):
+    def _selection_sort(self):
         """
-        bubble sort with drawing
+        selection sort with drawing
         """
         # TODO change to a generator, that yeilds the next step
+        completed = []
         n = len(self.data)
         for i in range(n - 1):
-            for j in range(n - i - 1):
-                if self.data[j] > self.data[j + 1]:
-                    self.data[j], self.data[j + 1] = self.data[j + 1], self.data[j]
-                self._draw_bars([j, j + 1], n - i)
+            min_index = i
+            for j in range(i + 1, n):
+                if self.data[j] < self.data[min_index]:
+                    min_index = j
+                self._draw_bars([j, min_index], completed)
                 time.sleep(self.speed_var.get() / 1000)
+            self.data[i], self.data[min_index] = self.data[min_index], self.data[i]
+            completed.append(i)
+
         # Draw bars one last time finished
-        self._draw_bars(highlight_index=0)
+        self._draw_bars(completed=[i for i in range(n)])
         # change button
         self.button["text"] = "Reset"
         self.button["state"] = "active"
@@ -99,7 +104,7 @@ class BubbleSortView(AbstractPage):
     def _start_sort(self):
         self.button["state"] = "disabled"
         # speed = self.speed_scale.get() / 1000
-        self._bubble_sort()
+        self._selection_sort()
 
     def _reset_sort(self):
         self.sorted = False
