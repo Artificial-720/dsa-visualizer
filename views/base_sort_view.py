@@ -80,7 +80,7 @@ class BaseSortView(AbstractPage):
     def _start_sort(self):
         self.button["state"] = "disabled"
         # speed = self.speed_scale.get() / 1000
-        self.sort()
+        self._sort()
 
     def _reset_sort(self):
         self.sorted = False
@@ -88,5 +88,16 @@ class BaseSortView(AbstractPage):
         self.button["text"] = self.TITLE
         self._draw_bars()
 
-    def sort(self):
+    def _sort(self):
+        for checking, completed in self.sort_generator():
+            self._draw_bars(checking, completed)
+            time.sleep(self.speed_var.get() / 1000)
+        # Draw bars one last time finished
+        # self._draw_bars([], completed)
+        # change button
+        self.button["text"] = "Reset"
+        self.button["state"] = "active"
+        self.sorted = True
+
+    def sort_generator(self):
         raise NotImplementedError
