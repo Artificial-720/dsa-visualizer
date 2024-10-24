@@ -48,7 +48,7 @@ class BaseSortView(AbstractPage):
 
         self.speed_var = tk.IntVar()
         self.speed_var.set(25)
-        self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=100, to=1, orient=tk.HORIZONTAL, label="Speed:", showvalue=0)
+        self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=500, to=1, orient=tk.HORIZONTAL, label="Speed:", showvalue=0)
         self.speed_scale.pack(side=tk.LEFT, padx=10)
 
         return frame

@@ -6,9 +6,10 @@ def create_list_frame(container, controller):
     # https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
     frame = tk.Frame(container, bg="blue")
 
-    for b in ["title1", "title2", "title3"]:
-        tk.Button(frame, text=b,
-                  command=lambda: controller.show_frame('SelectionSortView'))
+    tk.Button(frame, text="Selection Sort",
+              command=lambda: controller.show_frame('SelectionSortView'))
+    tk.Button(frame, text="Insertion Sort",
+              command=lambda: controller.show_frame('InsertionSortView'))
 
     for widget in frame.winfo_children():
         widget.pack(anchor="w", padx=5, pady=5)
