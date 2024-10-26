@@ -5,6 +5,7 @@ from views.selection_sort_view import SelectionSortView
 from views.insertion_sort_view import InsertionSortView
 from views.merge_sort_view import MergeSortView
 from views.counting_sort_view import CountingSortView
+from views.radix_sort_view import RadixSortView
 
 
 class App(tk.Tk):
@@ -21,7 +22,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Initialize each view saving in dictionary
-        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView):
+        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)

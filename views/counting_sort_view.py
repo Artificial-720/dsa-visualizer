@@ -12,12 +12,10 @@ class CountingSortView(BaseSortView):
         max_val = 0
 
         # Find max value
-        i = 0
-        while i < n:
+        for i in range(n):
             if self.data[i] > max_val:
                 max_val = self.data[i]
             yield [i], []
-            i += 1
 
         count = [0] * (max_val + 1)
 
