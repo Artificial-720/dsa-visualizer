@@ -48,6 +48,8 @@ class HomePage(tk.Frame):
                   command=lambda: self.controller.show_frame('InsertionSortView'))
         tk.Button(frame, text="Merge Sort",
                   command=lambda: self.controller.show_frame('MergeSortView'))
+        tk.Button(frame, text="Counting Sort",
+                  command=lambda: self.controller.show_frame('CountingSortView'))
 
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)

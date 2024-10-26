@@ -9,6 +9,8 @@ class BaseSortView(AbstractPage):
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 300
     DATA_SIZE = 20
+    DATA_MAX = 100
+    DATA_MIN = 1
 
     TITLE = ""
     DESCRIPTION = ""
@@ -84,7 +86,7 @@ class BaseSortView(AbstractPage):
 
     def _reset_sort(self):
         self.sorted = False
-        self.data = [random.randint(10, 100) for _ in range(self.count_var.get())]
+        self.data = [random.randint(self.DATA_MIN, self.DATA_MAX) for _ in range(self.count_var.get())]
         self.button["text"] = self.TITLE
         self._draw_bars()
 
