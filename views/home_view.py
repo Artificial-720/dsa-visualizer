@@ -52,6 +52,8 @@ class HomePage(tk.Frame):
                   command=lambda: self.controller.show_frame('CountingSortView'))
         tk.Button(frame, text="Radix Sort",
                   command=lambda: self.controller.show_frame('RadixSortView'))
+        tk.Button(frame, text="Quick Sort",
+                  command=lambda: self.controller.show_frame('QuickSortView'))
 
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)

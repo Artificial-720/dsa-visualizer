@@ -12,6 +12,8 @@ class BaseSortView(AbstractPage):
     DATA_MAX = 100
     DATA_MIN = 1
 
+    BAR_SPACING = 2
+
     TITLE = ""
     DESCRIPTION = ""
 
@@ -63,9 +65,8 @@ class BaseSortView(AbstractPage):
         canvas_height = self.canvas.winfo_height()
         max_value = max(self.data)
         bar_width = self.CANVAS_WIDTH // len(self.data)
-        bar_spacing = 2
         for i, value in enumerate(self.data):
-            x0 = i * bar_width + bar_spacing
+            x0 = i * bar_width + self.BAR_SPACING
             y0 = canvas_height - (value / max_value) * canvas_height
             x1 = (i + 1) * bar_width
             y1 = canvas_height
