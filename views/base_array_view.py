@@ -34,13 +34,13 @@ class BaseArrayView(AbstractPage):
 
     def create_info_frame(self):
         """Implement create_info_frame. Creates and configures the information frame."""
-        frame = tk.Frame(self, bg="blue", pady=10, padx=10)
+        frame = tk.Frame(self, bg=self.COLOR_BG, pady=10, padx=10)
 
         tk.Label(frame, text=self.TITLE, font=("Arial", 18)).pack(pady=10, anchor=tk.W)
-        tk.Label(frame, text=self.DESCRIPTION).pack(anchor=tk.W)
+        tk.Label(frame, text=self.DESCRIPTION, wraplength=500, justify="left").pack(anchor=tk.W)
 
         # Canvas and count scale frame
-        canvas_count_frame = tk.Frame(frame, bg="green")
+        canvas_count_frame = tk.Frame(frame, bg=self.COLOR_BG)
         canvas_count_frame.pack(anchor=tk.W, expand=True)
 
         # Canvas for drawing the frames
@@ -59,7 +59,7 @@ class BaseArrayView(AbstractPage):
 
     def create_controls_frame(self, container):
         """Create control frame with button to start and speed scale."""
-        controls = tk.Frame(container, bg="red")
+        controls = tk.Frame(container, bg=self.COLOR_BG)
         controls.pack(anchor=tk.W, expand=True)
 
         self.button = tk.Button(controls, text=self.TITLE, command=self._button_press)
