@@ -17,15 +17,15 @@ class QueueView(AbstractPage):
     DESCRIPTION = "Queues organize elements in FIFO First In First Out."
 
     def __init__(self, parent, controller):
-        self.stack_bottom_y = self.CANVAS_HEIGHT - 10  # Y position of the bottom of stack
-        self.box_height = 25
-        self.box_width = 100
-        self.x = 50
+        self.right_x = self.CANVAS_WIDTH - 10
+        self.box_height = 100
+        self.box_width = 25
+        self.y = self.CANVAS_HEIGHT // 2
 
         self.result_text = tk.StringVar()
         self.queue = [1, 2, 3]
         self.padding = 10  # Bucket padding
-        self.queue_max = (self.CANVAS_HEIGHT // self.box_height) - 1
+        self.queue_max = ((self.CANVAS_WIDTH - (self.padding * 2)) // self.box_width) - 1
 
         super().__init__(parent, controller)
 
@@ -69,10 +69,10 @@ class QueueView(AbstractPage):
 
     def _draw_bucket(self):
         # Draw three lines to represent a "bucket" around the queue
-        left_x = self.x - self.padding
-        right_x = self.x + self.box_width + self.padding
-        top_y = self.padding
-        bottom_y = self.stack_bottom_y + self.padding
+        top_y = self.y - self.padding
+        bottom_y = self.y + self.box_width + self.padding
+        left_x = self.padding
+        right_x = self.right_x
 
         # Draw bucket lines
         self.canvas.create_line(left_x, top_y, left_x, bottom_y, width=3)      # Left side
@@ -89,8 +89,10 @@ class QueueView(AbstractPage):
 
         # Draw each item in the queue
         for i, item in enumerate(self.queue):
-            x0, y0 = self.x, self.stack_bottom_y - (i * self.box_height)
-            x1, y1 = self.x + self.box_width, y0 - self.box_height
+            x0 = self.padding * 2 + (i + 1) * self.box_width
+            y0 = self.y - self.padding * 2 - self.box_height // 2
+            x1 = x0 - self.box_width
+            y1 = y0 + self.box_height
 
             color = self.CANVAS_COLOR_NEUTRAL
             if i == highlight:
