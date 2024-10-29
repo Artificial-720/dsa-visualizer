@@ -1,12 +1,12 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class InsertionSortView(BaseSortView):
+class InsertionSortView(BaseArrayView):
 
     TITLE = "Insertion Sort"
     DESCRIPTION = "Insertion sort has part of the array sort and part unsorted, slowly takes one from the unsorted part and inserts it into the sorted part."
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         n = len(self.data)
         completed = [0]
 

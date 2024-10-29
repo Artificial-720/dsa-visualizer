@@ -1,12 +1,12 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class SelectionSortView(BaseSortView):
+class SelectionSortView(BaseArrayView):
 
     TITLE = "Selection Sort"
     DESCRIPTION = "Selection sort is a sorting algorithm that works by finding the smallest value and placing that value at the start of the array"
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         completed = []
         n = len(self.data)
 

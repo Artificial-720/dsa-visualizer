@@ -1,13 +1,13 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class RadixSortView(BaseSortView):
+class RadixSortView(BaseArrayView):
 
     TITLE = "Radix Sort"
     DESCRIPTION = "Radix sort is a sorting algorithm that sorts by digit starting at the least moving to the greatest. This algorithm is a non comparative algorithm."
     DATA_MAX = 999
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         n = len(self.data)
         max_val = 0
         exp = 1

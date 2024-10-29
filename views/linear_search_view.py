@@ -1,15 +1,15 @@
 import tkinter as tk
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class LinearSearchView(BaseSortView):
+class LinearSearchView(BaseArrayView):
 
     TITLE = "Linear Search"
     DESCRIPTION = "Linear search works by check each index for the value from left to right until it finds the value."
 
     DATA_MAX = 10
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         n = len(self.data)
         found = False
         self.label["text"] = ""

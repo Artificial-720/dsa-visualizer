@@ -1,12 +1,12 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class BubbleSortView(BaseSortView):
+class BubbleSortView(BaseArrayView):
 
     TITLE = "Bubble Sort"
     DESCRIPTION = "Bubble sort is a sorting algorithm that works by making the highest value bubble up"
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         n = len(self.data)
         completed = []
         for i in range(n - 1):

@@ -1,12 +1,12 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class QuickSortView(BaseSortView):
+class QuickSortView(BaseArrayView):
 
     TITLE = "Quick Sort"
     DESCRIPTION = "Quick sort chooses a pivot point and moves elements that are lower to the left and elements that are higher to the right."
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         self.completed = []
         yield from self._quick_sort()
         yield [], self.completed

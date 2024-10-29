@@ -1,12 +1,12 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class MergeSortView(BaseSortView):
+class MergeSortView(BaseArrayView):
 
     TITLE = "Merge Sort"
     DESCRIPTION = "Merge sort is a sorting algorithm that sorts by divide-and-conquer breaking the array into smaller arrays"
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         yield from self._merge_sort(0, len(self.data) - 1)
         yield [], [i for i in range(len(self.data))]
 

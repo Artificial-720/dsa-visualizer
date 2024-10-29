@@ -1,13 +1,13 @@
-from views.base_sort_view import BaseSortView
+from views.base_array_view import BaseArrayView
 
 
-class CountingSortView(BaseSortView):
+class CountingSortView(BaseArrayView):
 
     TITLE = "Counting Sort"
     DESCRIPTION = "Counting sort works by counting the number of times a value happens. Works best when range of data is small."
     DATA_MAX = 5
 
-    def sort_generator(self):
+    def algorithm_generator(self):
         n = len(self.data)
         max_val = 0
 
