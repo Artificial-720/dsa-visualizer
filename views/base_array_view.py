@@ -126,12 +126,19 @@ class BaseArrayView(AbstractPage):
 
     def _animate(self):
         """Animate algorithm by updating the canvas."""
-        for checking, completed in self.algorithm_generator():
-            self._draw_bars(checking, completed)
-            time.sleep(self.speed_var.get() / 1000)
+        gen = self.algorithm_generator()
 
-        self.button.config(text="Reset", state="active")
-        self.animation_finished = True
+        def step():
+            try:
+                checking, completed = next(gen)
+                self._draw_bars(checking, completed)
+                self.after(int(self.speed_var.get()), step)
+            except StopIteration:
+                self.button.config(text="Reset", state="active")
+                self.animation_finished = True
+
+        # Inital start of animation
+        step()
 
     def algorithm_generator(self):
         """Yield steps for the algorithm. This method should be implemented by subclasses."""
