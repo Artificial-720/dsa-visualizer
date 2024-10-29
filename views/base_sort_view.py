@@ -44,7 +44,12 @@ class BaseSortView(AbstractPage):
         self.count_scale.pack(side=tk.LEFT, fill=tk.Y, padx=10)
         self.count_scale.bind("<ButtonRelease-1>", lambda e: self._reset_sort())
 
-        controls = tk.Frame(frame, bg="red")
+        self.create_controls_frame(frame)
+
+        return frame
+
+    def create_controls_frame(self, container):
+        controls = tk.Frame(container, bg="red")
         controls.pack(anchor=tk.W, expand=True)
 
         self.button = tk.Button(controls, text=self.TITLE, command=self._button_press)
@@ -55,7 +60,7 @@ class BaseSortView(AbstractPage):
         self.speed_scale = tk.Scale(controls, variable=self.speed_var, from_=500, to=1, orient=tk.HORIZONTAL, label="Speed:", showvalue=0)
         self.speed_scale.pack(side=tk.LEFT, padx=10)
 
-        return frame
+        return controls
 
     def _draw_bars(self, checking=[], completed=[]):
         """
