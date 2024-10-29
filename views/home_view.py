@@ -56,6 +56,8 @@ class HomePage(tk.Frame):
                   command=lambda: self.controller.show_frame('QuickSortView'))
         tk.Button(frame, text="Linear Search",
                   command=lambda: self.controller.show_frame('LinearSearchView'))
+        tk.Button(frame, text="Binary Search",
+                  command=lambda: self.controller.show_frame('BinarySearchView'))
 
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)

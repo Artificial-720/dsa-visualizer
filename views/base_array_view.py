@@ -116,9 +116,13 @@ class BaseArrayView(AbstractPage):
     def _reset(self):
         """Reset data, animation state, and button text, then draw initial data."""
         self.animation_finished = False
-        self.data = [random.randint(self.DATA_MIN, self.DATA_MAX) for _ in range(self.count_var.get())]
+        self.data = self._generate_data()
         self.button.config(text=self.TITLE)
         self._draw_bars()
+
+    def _generate_data(self):
+        """Generate random data into self.data"""
+        return [random.randint(self.DATA_MIN, self.DATA_MAX) for _ in range(self.count_var.get())]
 
     def _animate(self):
         """Animate algorithm by updating the canvas."""
