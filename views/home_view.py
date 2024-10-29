@@ -59,6 +59,10 @@ class HomePage(tk.Frame):
         tk.Button(frame, text="Binary Search",
                   command=lambda: self.controller.show_frame('BinarySearchView'))
 
+        # Stack
+        tk.Button(frame, text="Stack",
+                  command=lambda: self.controller.show_frame('StackView'))
+
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)
 
