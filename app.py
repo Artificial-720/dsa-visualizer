@@ -1,8 +1,14 @@
 import tkinter as tk
-from views.homepage import HomePage
-from views.pageone import PageOne
-from views.pagetwo import PageTwo
-from views.bubblesort import BubbleSortView
+from views.home_view import HomePage
+from views.bubble_sort_view import BubbleSortView
+from views.selection_sort_view import SelectionSortView
+from views.insertion_sort_view import InsertionSortView
+from views.merge_sort_view import MergeSortView
+from views.counting_sort_view import CountingSortView
+from views.radix_sort_view import RadixSortView
+from views.quick_sort_view import QuickSortView
+from views.linear_search_view import LinearSearchView
+from views.binary_search_view import BinarySearchView
 
 
 class App(tk.Tk):
@@ -19,7 +25,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Initialize each view saving in dictionary
-        for F in (HomePage, PageOne, PageTwo, BubbleSortView):
+        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
