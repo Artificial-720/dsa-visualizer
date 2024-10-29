@@ -84,11 +84,11 @@ class QueueView(AbstractPage):
         # Clear canvas
         self.canvas.delete("all")
 
-        # Draw stack "bucket" just to help visualize
+        # Draw "bucket" just to help visualize
         self._draw_bucket()
 
-        # Draw each item in the stack
-        for i, item in enumerate(self.stack):
+        # Draw each item in the queue
+        for i, item in enumerate(self.queue):
             x0, y0 = self.x, self.stack_bottom_y - (i * self.box_height)
             x1, y1 = self.x + self.box_width, y0 - self.box_height
 
@@ -96,7 +96,7 @@ class QueueView(AbstractPage):
             if i == highlight:
                 color = self.CANVAS_COLOR_CHECKING
                 # refresh later without color
-                self.after(200, self._draw_stack)
+                self.after(200, self._draw)
 
             # Draw rectangle and text for each item
             self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, outline="black")
