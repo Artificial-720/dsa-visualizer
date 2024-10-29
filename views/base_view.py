@@ -21,9 +21,9 @@ class AbstractPage(tk.Frame):
         button1.pack()
 
         # Button to go to Page Two
-        button2 = tk.Button(frame, text="Go to Page Two",
-                            command=lambda: controller.show_frame('PageTwo'))
-        button2.pack()
+        # button2 = tk.Button(frame, text="Go to Page Two",
+                            # command=lambda: controller.show_frame('PageTwo'))
+        # button2.pack()
         return frame
 
     def create_info_frame(self):
