@@ -62,6 +62,9 @@ class HomePage(tk.Frame):
         # Stack
         tk.Button(frame, text="Stack",
                   command=lambda: self.controller.show_frame('StackView'))
+        # Queue
+        tk.Button(frame, text="Queue",
+                  command=lambda: self.controller.show_frame('QueueView'))
 
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)

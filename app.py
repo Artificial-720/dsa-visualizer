@@ -13,6 +13,7 @@ from views.linear_search_view import LinearSearchView
 from views.binary_search_view import BinarySearchView
 
 from views.stack_view import StackView
+from views.queue_view import QueueView
 
 
 class App(tk.Tk):
@@ -29,7 +30,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Initialize each view saving in dictionary
-        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView):
+        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
