@@ -27,5 +27,4 @@ class AbstractPage(tk.Frame):
         return frame
 
     def create_info_frame(self):
-        frame = tk.Frame(self, bg="red")
-        return frame
+        raise NotImplementedError

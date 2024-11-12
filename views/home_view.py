@@ -66,6 +66,10 @@ class HomePage(tk.Frame):
         tk.Button(frame, text="Queue",
                   command=lambda: self.controller.show_frame('QueueView'))
 
+        # Linked List
+        tk.Button(frame, text="Linked List",
+                  command=lambda: self.controller.show_frame('LinkedListView'))
+
         for widget in frame.winfo_children():
             widget.pack(anchor="w", padx=5, pady=5)
 
