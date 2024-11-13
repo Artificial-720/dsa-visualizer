@@ -119,7 +119,7 @@ class TreeTraversalView(AbstractPage):
 
         # Buttons
         tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal_button).grid(row=0, column=0, padx=10)
-        tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal).grid(row=0, column=1, padx=10)
+        tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal_button).grid(row=0, column=1, padx=10)
         tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal).grid(row=0, column=2, padx=10)
 
         return frame
@@ -216,8 +216,32 @@ class TreeTraversalView(AbstractPage):
                 stack.append(current.left)
         yield [], checked
 
-    def in_order_traversal(self):
-        print("in_order_traversal")
+    def in_order_traversal_button(self):
+        self.animate(self.in_order_traversal_generator(self.root))
+
+    def in_order_traversal_generator(self, node):
+        if node is None:
+            return
+
+        stack = []
+        current = node
+        checked = []
+        while stack or current:
+            # Go down leftmost branch
+            while current:
+                if current.left:
+                    yield [current], checked
+                stack.append(current)
+                current = current.left
+
+            current = stack.pop()
+            # print(current.data)
+            yield [current], checked
+            checked.append(current)
+
+            # move to right node
+            current = current.right
+        yield [], checked
 
     def post_order_traversal(self):
         print("post_order_traversal")
