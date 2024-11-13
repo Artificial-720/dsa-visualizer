@@ -31,7 +31,6 @@ PAGE - AVL Tree
 [canvas]
 button [insert {}]
 """
-import random
 import tkinter as tk
 from views.base_view import AbstractPage
 
@@ -43,10 +42,20 @@ class Node():
         self.right = None
 
 
+class QueueObject():
+    """ Object used for holding data in queue during draw loop """
+
+    def __init__(self, node, x, y, offset_x):
+        self.node = node
+        self.x = x
+        self.y = y
+        self.offset_x = offset_x
+
+
 class TreeTraversalView(AbstractPage):
 
-    CANVAS_WIDTH = 600
-    CANVAS_HEIGHT = 200
+    CANVAS_WIDTH = 400
+    CANVAS_HEIGHT = 400
 
     DATA_MIN = 1
     DATA_MAX = 20
@@ -54,10 +63,12 @@ class TreeTraversalView(AbstractPage):
     def __init__(self, parent, controller):
         self.root = None
 
-        self.node_width = 20
-        self.node_height = 20
-        self.offset = 50
+        self.animation_delay = 500
+        self.node_diameter = 30
+        self.offset_x = 60
+        self.offset_y = 60
 
+        self.node_radius = self.node_diameter / 2
         self.setup_test_tree()
 
         super().__init__(parent, controller)
@@ -107,46 +118,103 @@ class TreeTraversalView(AbstractPage):
         button_frame.pack()
 
         # Buttons
-        tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal).grid(row=0, column=0, padx=10)
+        tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal_button).grid(row=0, column=0, padx=10)
         tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal).grid(row=0, column=1, padx=10)
         tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal).grid(row=0, column=2, padx=10)
 
         return frame
 
-    def draw(self):
+    def draw(self, checking=[], checked=[]):
         # Clear canvas
         self.canvas.delete("all")
 
-        total_width = (self.node_count - 1) * self.offset + self.node_width
+        # Tree is empty
+        if not self.root:
+            return
 
+        total_width = 10
         start_x = (self.canvas.winfo_width() - total_width) // 2
-        x, y = start_x, self.canvas.winfo_height() // 2 - self.node_height / 2
+        x, y = start_x, 10
 
-        # Draw each node
-        n = self.head
-        while n:
+        q = []
+        q.append(QueueObject(self.root, x, y, self.offset_x))
+        while len(q) > 0:
+            queue_object = q.pop(0)
+            x, y = queue_object.x, queue_object.y
+            """
+            checking: solid green
+            checked: faded green
+            not checked: gray
+            """
+            color = "LightBlue"
+            if queue_object.node in checking:
+                color = "LimeGreen"
+            if queue_object.node in checked:
+                color = "SpringGreen"
             # Draw circle
-            self.canvas.create_oval(x, y, x + self.node_width, y + self.node_height, fill="lightblue")
+            self.canvas.create_oval(x, y, x + self.node_diameter, y + self.node_diameter, fill=color)
             # Draw text
-            self.canvas.create_text(x + self.node_width / 2, y + self.node_height / 2, text=n.data)
+            self.canvas.create_text(x + self.node_radius, y + self.node_radius, text=queue_object.node.data)
 
-            # Draw line to next node
-            if n.next:
-                next_x = x + self.offset
-                # Line from the center-right of the current node to the center-left of the next node
-                self.canvas.create_line(x + self.node_width,
-                                        y + self.node_height / 2,
-                                        next_x,
-                                        y + self.node_height / 2, arrow="last")
+            y += self.offset_y
 
-            x += self.offset
-            n = n.next
+            def calc_edge(point, multiple=1):
+                return (point + self.node_radius) + self.node_radius * 0.707106781 * multiple
+            # Draw left node
+            if queue_object.node.left:
+                left_object = QueueObject(queue_object.node.left, x - queue_object.offset_x, y, queue_object.offset_x // 2)
+                q.append(left_object)
+                # Draw line
+                self.canvas.create_line(calc_edge(queue_object.x, -1),
+                                        calc_edge(queue_object.y),
+                                        calc_edge(left_object.x),
+                                        calc_edge(left_object.y, -1),
+                                        arrow="last")
+            # Draw right node
+            if queue_object.node.right:
+                right_object = QueueObject(queue_object.node.right, x + queue_object.offset_x, y, queue_object.offset_x // 2)
+                q.append(right_object)
+                # Draw line
+                self.canvas.create_line(calc_edge(queue_object.x),
+                                        calc_edge(queue_object.y),
+                                        calc_edge(right_object.x, -1),
+                                        calc_edge(right_object.y, -1),
+                                        arrow="last")
 
-    def generate_data(self):
-        return random.randint(self.DATA_MIN, self.DATA_MAX)
+    def animate(self, gen):
+        """Animate algorithm by updating the canvas."""
 
-    def pre_order_traversal(self):
-        print("pre_order_traversal")
+        def step():
+            try:
+                checking, checked = next(gen)
+                self.draw(checking, checked)
+                self.after(self.animation_delay, step)
+            except StopIteration:
+                # self.button.config(text="Reset", state="active")
+                self.animation_finished = True
+
+        # Inital start of animation
+        step()
+
+    def pre_order_traversal_button(self):
+        self.animate(self.pre_order_traversal_generator(self.root))
+
+    def pre_order_traversal_generator(self, node):
+        if node is None:
+            return
+
+        stack = [node]
+        checked = []
+        while stack:
+            current = stack.pop()
+            yield [current], checked
+            checked.append(current)
+
+            if current.right:
+                stack.append(current.right)
+            if current.left:
+                stack.append(current.left)
+        yield [], checked
 
     def in_order_traversal(self):
         print("in_order_traversal")
