@@ -18,6 +18,7 @@ from views.queue_view import QueueView
 from views.linked_list_view import LinkedListView
 
 from views.tree_traversal_view import TreeTraversalView
+from views.binary_search_tree_view import BinarySearchTreeView
 
 
 class App(tk.Tk):
@@ -33,7 +34,7 @@ class App(tk.Tk):
         # Dictionary holding instances of each page
         self.frames = {}
 
-        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView]
+        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView]
         # Initialize home page last, to include all other pages
         pages.append(HomePage)
 

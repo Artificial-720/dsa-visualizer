@@ -1,38 +1,5 @@
-"""
-# Tree Data Structure v0.5.0
-
-Binary Trees
-Pre-order Traversal
-In-order Traversal
-Post-order Traversal
-Binary search tree
-AVL tree <- self balancing tree
-
-PAGE - Tree Traversal
-[canvas]
-Result label
-buttons {Pre-order Traverse, in order, post order}
-
-colors needed:
-checking: solid green
-checked: faded green
-not checked: gray
-
-PAGE - Binary Search Tree
-[canvas]
-input box
-button [search]
-
-colors need:
-checking: yellow
-found: green
-
-PAGE - AVL Tree
-[canvas]
-button [insert {}]
-"""
 import tkinter as tk
-from views.base_view import AbstractPage
+from views.base_tree_view import BaseTreeView
 
 
 class Node():
@@ -52,7 +19,7 @@ class QueueObject():
         self.offset_x = offset_x
 
 
-class TreeTraversalView(AbstractPage):
+class TreeTraversalView(BaseTreeView):
 
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 400
