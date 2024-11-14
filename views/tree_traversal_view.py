@@ -57,9 +57,6 @@ class TreeTraversalView(AbstractPage):
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 400
 
-    DATA_MIN = 1
-    DATA_MAX = 20
-
     def __init__(self, parent, controller):
         self.root = None
 
@@ -110,6 +107,7 @@ class TreeTraversalView(AbstractPage):
         result_frame.pack()
 
         # label for output
+        tk.Label(result_frame, text="Results: ").pack(side=tk.LEFT)
         self.label = tk.Label(result_frame, text="")
         self.label.pack(pady=10, anchor=tk.W)
 
@@ -132,8 +130,7 @@ class TreeTraversalView(AbstractPage):
         if not self.root:
             return
 
-        total_width = 10
-        start_x = (self.canvas.winfo_width() - total_width) // 2
+        start_x = (self.canvas.winfo_width() // 2) - self.node_radius
         x, y = start_x, 10
 
         q = []
@@ -183,6 +180,7 @@ class TreeTraversalView(AbstractPage):
 
     def animate(self, gen):
         """Animate algorithm by updating the canvas."""
+        self.label["text"] = ""
 
         def step():
             try:
@@ -190,7 +188,6 @@ class TreeTraversalView(AbstractPage):
                 self.draw(checking, checked)
                 self.after(self.animation_delay, step)
             except StopIteration:
-                # self.button.config(text="Reset", state="active")
                 self.animation_finished = True
 
         # Inital start of animation
@@ -200,6 +197,7 @@ class TreeTraversalView(AbstractPage):
         self.animate(self.pre_order_traversal_generator(self.root))
 
     def pre_order_traversal_generator(self, node):
+        # Result: R,A,C,D,B,E,F,G
         if node is None:
             return
 
@@ -209,6 +207,7 @@ class TreeTraversalView(AbstractPage):
             current = stack.pop()
             yield [current], checked
             checked.append(current)
+            self.label["text"] += f"{current.data} "
 
             if current.right:
                 stack.append(current.right)
@@ -220,6 +219,7 @@ class TreeTraversalView(AbstractPage):
         self.animate(self.in_order_traversal_generator(self.root))
 
     def in_order_traversal_generator(self, node):
+        # Result: C,A,D,R,E,B,G,F
         if node is None:
             return
 
@@ -235,9 +235,9 @@ class TreeTraversalView(AbstractPage):
                 current = current.left
 
             current = stack.pop()
-            # print(current.data)
             yield [current], checked
             checked.append(current)
+            self.label["text"] += f"{current.data} "
 
             # move to right node
             current = current.right
@@ -254,7 +254,6 @@ class TreeTraversalView(AbstractPage):
         checked = []
         stack = []
         while current and current not in checked:
-            # print(current.data)
             yield [current], checked
             if current.left and current.left not in checked:
                 stack.append(current)
@@ -264,6 +263,7 @@ class TreeTraversalView(AbstractPage):
                 current = current.right
             else:
                 checked.append(current)
+                self.label["text"] += f"{current.data} "
                 if stack:
                     temp = stack.pop()
                     if temp == current:
