@@ -120,7 +120,7 @@ class TreeTraversalView(AbstractPage):
         # Buttons
         tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal_button).grid(row=0, column=0, padx=10)
         tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal_button).grid(row=0, column=1, padx=10)
-        tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal).grid(row=0, column=2, padx=10)
+        tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal_button).grid(row=0, column=2, padx=10)
 
         return frame
 
@@ -243,5 +243,30 @@ class TreeTraversalView(AbstractPage):
             current = current.right
         yield [], checked
 
-    def post_order_traversal(self):
-        print("post_order_traversal")
+    def post_order_traversal_button(self):
+        self.animate(self.post_order_traversal_generator(self.root))
+
+    def post_order_traversal_generator(self, node):
+        # Result: C,D,A,E,G,F,B,R
+        if node is None:
+            return
+        current = node
+        checked = []
+        stack = []
+        while current and current not in checked:
+            # print(current.data)
+            yield [current], checked
+            if current.left and current.left not in checked:
+                stack.append(current)
+                current = current.left
+            elif current.right and current.right not in checked:
+                stack.append(current)
+                current = current.right
+            else:
+                checked.append(current)
+                if stack:
+                    temp = stack.pop()
+                    if temp == current:
+                        temp = stack.pop()
+                    current = temp
+        yield [], checked
