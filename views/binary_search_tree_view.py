@@ -38,10 +38,10 @@ class BinarySearchTreeView(BaseTreeView):
         nodeF.left = nodeG
 
     def create_controls_frame(self, container):
-        control_frame = tk.Frame(container, bg="green")
+        control_frame = tk.Frame(container)
 
         # label for output
-        self.label = tk.Label(control_frame, text="hi")
+        self.label = tk.Label(control_frame, text="")
         self.label.pack(pady=10, anchor=tk.W)
 
         # input box for search value
