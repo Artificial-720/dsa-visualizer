@@ -1,4 +1,5 @@
 import tkinter as tk
+import re
 
 
 class HomePage(tk.Frame):
@@ -40,37 +41,16 @@ class HomePage(tk.Frame):
     def _create_list_frame(self, container):
         frame = tk.Frame(container, bg="blue")
 
-        tk.Button(frame, text="Bubble Sort",
-                  command=lambda: self.controller.show_frame('BubbleSortView'))
-        tk.Button(frame, text="Selection Sort",
-                  command=lambda: self.controller.show_frame('SelectionSortView'))
-        tk.Button(frame, text="Insertion Sort",
-                  command=lambda: self.controller.show_frame('InsertionSortView'))
-        tk.Button(frame, text="Merge Sort",
-                  command=lambda: self.controller.show_frame('MergeSortView'))
-        tk.Button(frame, text="Counting Sort",
-                  command=lambda: self.controller.show_frame('CountingSortView'))
-        tk.Button(frame, text="Radix Sort",
-                  command=lambda: self.controller.show_frame('RadixSortView'))
-        tk.Button(frame, text="Quick Sort",
-                  command=lambda: self.controller.show_frame('QuickSortView'))
-        tk.Button(frame, text="Linear Search",
-                  command=lambda: self.controller.show_frame('LinearSearchView'))
-        tk.Button(frame, text="Binary Search",
-                  command=lambda: self.controller.show_frame('BinarySearchView'))
+        for frame_name in self.controller.get_frames():
+            title = frame_name
+            # Remove view
+            if title.endswith("View"):
+                title = title[:-4]
+            # Add space between words
+            title = re.sub(r"([a-z])([A-Z])", r"\1 \2", title)
 
-        # Stack
-        tk.Button(frame, text="Stack",
-                  command=lambda: self.controller.show_frame('StackView'))
-        # Queue
-        tk.Button(frame, text="Queue",
-                  command=lambda: self.controller.show_frame('QueueView'))
-
-        # Linked List
-        tk.Button(frame, text="Linked List",
-                  command=lambda: self.controller.show_frame('LinkedListView'))
-
-        for widget in frame.winfo_children():
-            widget.pack(anchor="w", padx=5, pady=5)
+            btn = tk.Button(frame, text=title,
+                            command=lambda frame_name=frame_name: self.controller.show_frame(frame_name))
+            btn.pack(anchor="w", padx=5, pady=5)
 
         return frame

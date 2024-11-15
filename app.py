@@ -17,12 +17,16 @@ from views.queue_view import QueueView
 
 from views.linked_list_view import LinkedListView
 
+from views.tree_traversal_view import TreeTraversalView
+from views.binary_search_tree_view import BinarySearchTreeView
+from views.avl_tree_view import AVLTreeView
+
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("DSA Visualizer")
-        self.geometry("800x600")
+        self.geometry("800x800")
 
         # Main container holding all frames
         container = tk.Frame(self)
@@ -31,11 +35,16 @@ class App(tk.Tk):
         # Dictionary holding instances of each page
         self.frames = {}
 
+        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView]
+        # Initialize home page last, to include all other pages
+        pages.append(HomePage)
+
         # Initialize each view saving in dictionary
-        for F in (HomePage, BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView):
+        for F in pages:
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
         # Show home page
         self.show_frame('HomePage')
 
@@ -46,3 +55,7 @@ class App(tk.Tk):
         print(f"Switching view to {page_name}")
         frame = self.frames[page_name]
         frame.tkraise()
+
+    def get_frames(self):
+        """Returns frame names"""
+        return self.frames.keys()
