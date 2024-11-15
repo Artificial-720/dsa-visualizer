@@ -63,7 +63,8 @@ class BaseTreeView(AbstractPage):
 
     def animate(self, gen):
         """Animate algorithm by updating the canvas."""
-        self.label["text"] = ""
+        if hasattr(self, 'label'):
+            self.label["text"] = ""
 
         def step():
             try:
