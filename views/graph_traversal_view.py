@@ -75,4 +75,25 @@ class GraphTraversalView(BaseGraphView):
         yield [], checked
 
     def bfs_traversal_button(self):
-        pass
+        self.animate(self.bfs_traversal_generator('D'))
+
+    def bfs_traversal_generator(self, start_value):
+        # Result: D,A,C,E,B,F,G
+        start_index = self.vertex_data.index(start_value)
+        n = len(self.vertex_data)
+        visited = [False] * n
+
+        queue = [start_index]
+        checked = []
+        while queue:
+            current = queue.pop(0)
+            if not visited[current]:
+                visited[current] = True
+                yield [current], checked
+                checked.append(current)
+                self.label["text"] += f"{self.vertex_data[current]} "
+
+                for i in range(n):
+                    if self.adjacency_matrix[current][i] == 1 and not visited[i]:
+                        queue.append(i)
+        yield [], checked
