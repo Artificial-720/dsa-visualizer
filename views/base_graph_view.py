@@ -45,10 +45,10 @@ class BaseGraphView(AbstractPage):
     CANVAS_HEIGHT = 400
 
     def __init__(self, parent, controller):
-        super().__init__(parent, controller)
-
         self.node_diameter = 50
         self.node_radius = self.node_diameter // 2
+
+        super().__init__(parent, controller)
 
     def tkraise(self):
         """Override tkraise to draw frame when it loads"""
@@ -89,22 +89,7 @@ class BaseGraphView(AbstractPage):
         # Inital start of animation
         step()
 
-    def normalize(self, vec):
-        length = math.sqrt(vec.x**2 + vec.y**2)
-        if length == 0:
-            return Point(1, 1)
-        return Point((vec.x / length), (vec.y / length))
-
     def draw(self, checking=[], checked=[]):
-        self.vertex_data = ['A', 'B', 'C', 'D']
-
-        self.adjacency_matrix = [
-            [0, 1, 1, 1],  # Edges for A
-            [1, 0, 1, 0],  # Edges for B
-            [1, 1, 0, 0],  # Edges for C
-            [1, 0, 0, 0]   # Edges for D
-        ]
-
         # Clear canvas
         self.canvas.delete("all")
 
@@ -115,7 +100,6 @@ class BaseGraphView(AbstractPage):
         start_x = self.canvas.winfo_width() // 2
         start_y = self.canvas.winfo_height() // 2
 
-        x, y = start_x, start_y
         color = "green"
 
         # Calculate node locations

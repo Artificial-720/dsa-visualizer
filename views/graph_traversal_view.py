@@ -23,8 +23,23 @@ class GraphTraversalView(BaseGraphView):
         ]
 
     def create_controls_frame(self, parent):
-        controls_frame = tk.Frame()
-        # Result label
-        # DFS button
-        # BFS button
+        controls_frame = tk.Frame(parent)
+        # Frame to results label
+        result_frame = tk.Frame(controls_frame)
+        result_frame.pack()
+        # label for output
+        tk.Label(result_frame, text="Results: ").pack(side=tk.LEFT)
+        self.label = tk.Label(result_frame, text="")
+
+        # Buttons
+        button_frame = tk.Frame(controls_frame)
+        button_frame.pack()
+        tk.Button(button_frame, text="DFS Traversal", command=self.dfs_traversal_button).grid(row=0, column=0, padx=10)
+        tk.Button(button_frame, text="BFS Traversal", command=self.bfs_traversal_button).grid(row=0, column=1, padx=10)
         return controls_frame
+
+    def dfs_traversal_button(self):
+        pass
+
+    def bfs_traversal_button(self):
+        pass
