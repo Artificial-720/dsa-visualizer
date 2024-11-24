@@ -25,12 +25,12 @@ class GraphTraversalView(BaseGraphView):
         self.vertex_data = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         self.adjacency_matrix = [
             [0, 0, 1, 1, 1, 0, 0],  # A (vertex 0)
-            [0, 0, 0, 0, 0, 1, 0],  # B (vertex 1)
-            [0, 1, 0, 0, 0, 1, 1],  # C (vertex 2)
+            [0, 0, 1, 0, 0, 1, 0],  # B (vertex 1)
+            [1, 1, 0, 0, 1, 1, 1],  # C (vertex 2)
             [1, 0, 0, 0, 0, 0, 0],  # D (vertex 3)
-            [0, 0, 1, 0, 0, 0, 0],  # E (vertex 4)
-            [0, 0, 0, 0, 0, 0, 0],  # F (vertex 5)
-            [0, 0, 0, 0, 0, 0, 0],  # G (vertex 6)
+            [1, 0, 1, 0, 0, 0, 0],  # E (vertex 4)
+            [0, 1, 1, 0, 0, 0, 0],  # F (vertex 5)
+            [0, 0, 1, 0, 0, 0, 0],  # G (vertex 6)
         ]
 
     def create_controls_frame(self, parent):
@@ -41,16 +41,38 @@ class GraphTraversalView(BaseGraphView):
         # label for output
         tk.Label(result_frame, text="Results: ").pack(side=tk.LEFT)
         self.label = tk.Label(result_frame, text="")
+        self.label.pack(pady=10, anchor=tk.W)
 
         # Buttons
         button_frame = tk.Frame(controls_frame)
         button_frame.pack()
-        tk.Button(button_frame, text="DFS Traversal", command=self.dfs_traversal_button).grid(row=0, column=0, padx=10)
-        tk.Button(button_frame, text="BFS Traversal", command=self.bfs_traversal_button).grid(row=0, column=1, padx=10)
+        tk.Button(button_frame, text="DFS Traversal from D", command=self.dfs_traversal_button).grid(row=0, column=0, padx=10)
+        tk.Button(button_frame, text="BFS Traversal from D", command=self.bfs_traversal_button).grid(row=0, column=1, padx=10)
         return controls_frame
 
     def dfs_traversal_button(self):
-        pass
+        self.animate(self.dfs_traversal_generator('D'))
+
+    def dfs_traversal_generator(self, start_value):
+        # Result: D,A,C,B,F,E,G
+        index = self.vertex_data.index(start_value)
+        n = len(self.vertex_data)
+        visited = [False] * n
+
+        stack = [index]
+        checked = []
+        while stack:
+            current = stack.pop()
+            if not visited[current]:
+                visited[current] = True
+                yield [current], checked
+                checked.append(current)
+                self.label["text"] += f"{self.vertex_data[current]} "
+
+                for i in range(n - 1, -1, -1):
+                    if self.adjacency_matrix[current][i] == 1 and not visited[i]:
+                        stack.append(i)
+        yield [], checked
 
     def bfs_traversal_button(self):
         pass

@@ -48,6 +48,13 @@ class BaseGraphView(AbstractPage):
         self.node_diameter = 50
         self.node_radius = self.node_diameter // 2
 
+        self.animation_delay = 500
+        self.setup = False
+
+        self.color_checked = "SpringGreen"
+        self.color_checking = "LimeGreen"
+        self.color_neutral = "LightBlue"
+
         super().__init__(parent, controller)
 
     def tkraise(self):
@@ -100,44 +107,50 @@ class BaseGraphView(AbstractPage):
         start_x = self.canvas.winfo_width() // 2
         start_y = self.canvas.winfo_height() // 2
 
-        color = "green"
-
         # Calculate node locations
         n = len(self.vertex_data)
         self.force = 10
         self.min_distance = 100
-        locations = [Point(start_x, start_y) for _ in range(n)]
 
-        max_interations = 50
+        if not self.setup:
+            self.locations = [Point(start_x, start_y) for _ in range(n)]
 
-        for _ in range(max_interations):
-            print("Physics step")
-            changed = False
-            for i in range(n):
-                for j in range(n):
-                    p1 = locations[i]
-                    if i == j:  # Skip self
-                        continue
-                    p2 = locations[j]
-                    dis = p1.distance(p2)
-                    print(f"Distance between {p1} and {p2} is {dis}")
-                    if dis < self.min_distance:
-                        if dis == 0:
-                            direction_vector = Point(random.randint(0, 10), random.randint(0, 10))
-                        else:
-                            direction_vector = p1 - p2
-                        direction_vector_norm = direction_vector.normalize()
-                        print(f"direction vec {direction_vector}")
-                        new_p1 = p1 + (direction_vector_norm * self.force)
-                        locations[i] = new_p1
-                        changed = True
-                        print(f"Moved {i} from {p1} to {new_p1}")
-            if not changed:
-                break  # stop interations if positions have stabalized
+            max_interations = 50
+
+            for _ in range(max_interations):
+                # print("Physics step")
+                changed = False
+                for i in range(n):
+                    for j in range(n):
+                        p1 = self.locations[i]
+                        if i == j:  # Skip self
+                            continue
+                        p2 = self.locations[j]
+                        dis = p1.distance(p2)
+                        # print(f"Distance between {p1} and {p2} is {dis}")
+                        if dis < self.min_distance:
+                            if dis == 0:
+                                direction_vector = Point(random.randint(0, 10), random.randint(0, 10))
+                            else:
+                                direction_vector = p1 - p2
+                            direction_vector_norm = direction_vector.normalize()
+                            # print(f"direction vec {direction_vector}")
+                            new_p1 = p1 + (direction_vector_norm * self.force)
+                            self.locations[i] = new_p1
+                            changed = True
+                            # print(f"Moved {i} from {p1} to {new_p1}")
+                if not changed:
+                    break  # stop interations if positions have stabalized
+            self.setup = True
 
         # Draw nodes
         for i in range(n):
-            p = locations[i]
+            p = self.locations[i]
+            color = self.color_neutral
+            if i in checking:
+                color = self.color_checking
+            if i in checked:
+                color = self.color_checked
             # Draw circle
             self.canvas.create_oval(p.x, p.y, p.x + self.node_diameter, p.y + self.node_diameter, fill=color)
             # Draw text
@@ -147,10 +160,10 @@ class BaseGraphView(AbstractPage):
         for i in range(n):
             for j in range(n):
                 if self.adjacency_matrix[i][j] == 1:
-                    print(f"Draw connection from {self.vertex_data[i]} to {self.vertex_data[j]}")
-                    p1 = locations[i]
-                    p2 = locations[j]
-                    print(p1)
+                    # print(f"Draw connection from {self.vertex_data[i]} to {self.vertex_data[j]}")
+                    p1 = self.locations[i]
+                    p2 = self.locations[j]
+                    # print(p1)
                     # Move to center of node
                     p1_center = Point(p1.x + self.node_radius, p1.y + self.node_radius)
                     p2_center = Point(p2.x + self.node_radius, p2.y + self.node_radius)
