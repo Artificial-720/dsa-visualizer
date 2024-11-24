@@ -13,13 +13,24 @@ class GraphTraversalView(BaseGraphView):
         super().__init__(parent, controller)
 
     def setup_test_graph(self):
-        self.vertex_data = ['A', 'B', 'C', 'D']
+        # self.vertex_data = ['A', 'B', 'C', 'D']
 
+        # self.adjacency_matrix = [
+        #     [0, 1, 1, 1],  # Edges for A
+        #     [1, 0, 1, 0],  # Edges for B
+        #     [1, 1, 0, 0],  # Edges for C
+        #     [1, 0, 0, 0]   # Edges for D
+        # ]
+
+        self.vertex_data = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         self.adjacency_matrix = [
-            [0, 1, 1, 1],  # Edges for A
-            [1, 0, 1, 0],  # Edges for B
-            [1, 1, 0, 0],  # Edges for C
-            [1, 0, 0, 0]   # Edges for D
+            [0, 0, 1, 1, 1, 0, 0],  # A (vertex 0)
+            [0, 0, 0, 0, 0, 1, 0],  # B (vertex 1)
+            [0, 1, 0, 0, 0, 1, 1],  # C (vertex 2)
+            [1, 0, 0, 0, 0, 0, 0],  # D (vertex 3)
+            [0, 0, 1, 0, 0, 0, 0],  # E (vertex 4)
+            [0, 0, 0, 0, 0, 0, 0],  # F (vertex 5)
+            [0, 0, 0, 0, 0, 0, 0],  # G (vertex 6)
         ]
 
     def create_controls_frame(self, parent):
