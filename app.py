@@ -23,6 +23,7 @@ from views.avl_tree_view import AVLTreeView
 
 from views.graph_traversal_view import GraphTraversalView
 from views.graph_cycle_detection_undirected_view import GraphCycleDetectionUndirectedView
+from views.graph_cycle_detection_directed_view import GraphCycleDetectionDirectedView
 
 
 class App(tk.Tk):
@@ -38,7 +39,7 @@ class App(tk.Tk):
         # Dictionary holding instances of each page
         self.frames = {}
 
-        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView]
+        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView]
         # Initialize home page last, to include all other pages
         pages.append(HomePage)
 

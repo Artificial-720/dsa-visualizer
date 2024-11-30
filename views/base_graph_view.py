@@ -173,4 +173,9 @@ class BaseGraphView(AbstractPage):
                     # Find edge
                     p1_edge = p1_center + (d_v * -self.node_radius)  # Negative cause want to flip direction
                     p2_edge = p2_center + (d_v * self.node_radius)
-                    self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black")
+                    if self.adjacency_matrix[j][i] == 1:
+                        # Undirected
+                        self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black")
+                    else:
+                        # Directed
+                        self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black", arrow="last")

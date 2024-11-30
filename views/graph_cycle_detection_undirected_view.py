@@ -1,14 +1,3 @@
-"""
-
-
-How it works:
-
-    Start DFS traversal on each unvisited vertex (in case the Graph is not connected).
-    During DFS, mark vertices as visited, and run DFS on the adjacent vertices (recursively).
-    If an adjacent vertex is already visited and is not the parent of the current vertex, a cycle is detected, and True is returned.
-    If DFS traversal is done on all vertices and no cycles are detected, False is returned.
-
-"""
 import tkinter as tk
 from views.base_graph_view import BaseGraphView
 
