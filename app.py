@@ -26,13 +26,14 @@ from views.graph_cycle_detection_undirected_view import GraphCycleDetectionUndir
 from views.graph_cycle_detection_directed_view import GraphCycleDetectionDirectedView
 from views.graph_shortest_path_dijkstras_view import GraphShortestPathDijkstrasView
 from views.graph_shortest_path_bellmanford_view import GraphShortestPathBellmanFordView
+from views.graph_minimum_spanning_tree_prims_view import GraphMinimumSpanningTreePrimsView
 
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("DSA Visualizer")
-        self.geometry("800x800")
+        self.geometry("800x950")
 
         # Main container holding all frames
         container = tk.Frame(self)
@@ -41,7 +42,7 @@ class App(tk.Tk):
         # Dictionary holding instances of each page
         self.frames = {}
 
-        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView, GraphShortestPathDijkstrasView, GraphShortestPathBellmanFordView]
+        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView, GraphShortestPathDijkstrasView, GraphShortestPathBellmanFordView, GraphMinimumSpanningTreePrimsView]
         # Initialize home page last, to include all other pages
         pages.append(HomePage)
 

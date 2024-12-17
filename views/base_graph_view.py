@@ -87,8 +87,8 @@ class BaseGraphView(AbstractPage):
 
         def step():
             try:
-                checking, checked = next(gen)
-                self.draw(checking, checked)
+                outputs = next(gen)
+                self.draw(*outputs)
                 self.after(self.animation_delay, step)
             except StopIteration:
                 self.animation_finished = True
@@ -96,7 +96,7 @@ class BaseGraphView(AbstractPage):
         # Inital start of animation
         step()
 
-    def draw(self, checking=[], checked=[]):
+    def draw(self, checking=[], checked=[], highlight=[]):
         # Clear canvas
         self.canvas.delete("all")
 
@@ -112,36 +112,7 @@ class BaseGraphView(AbstractPage):
         self.force = 10
         self.min_distance = 100
 
-        if not self.setup:
-            self.locations = [Point(start_x, start_y) for _ in range(n)]
-
-            max_interations = 50
-
-            for _ in range(max_interations):
-                # print("Physics step")
-                changed = False
-                for i in range(n):
-                    for j in range(n):
-                        p1 = self.locations[i]
-                        if i == j:  # Skip self
-                            continue
-                        p2 = self.locations[j]
-                        dis = p1.distance(p2)
-                        # print(f"Distance between {p1} and {p2} is {dis}")
-                        if dis < self.min_distance:
-                            if dis == 0:
-                                direction_vector = Point(random.randint(0, 10), random.randint(0, 10))
-                            else:
-                                direction_vector = p1 - p2
-                            direction_vector_norm = direction_vector.normalize()
-                            # print(f"direction vec {direction_vector}")
-                            new_p1 = p1 + (direction_vector_norm * self.force)
-                            self.locations[i] = new_p1
-                            changed = True
-                            # print(f"Moved {i} from {p1} to {new_p1}")
-                if not changed:
-                    break  # stop interations if positions have stabalized
-            self.setup = True
+        self.setup_graph(start_x, start_y, n)
 
         # Draw nodes
         for i in range(n):
@@ -173,9 +144,47 @@ class BaseGraphView(AbstractPage):
                     # Find edge
                     p1_edge = p1_center + (d_v * -self.node_radius)  # Negative cause want to flip direction
                     p2_edge = p2_center + (d_v * self.node_radius)
-                    if self.adjacency_matrix[j][i] == 1:
+                    if self.adjacency_matrix[j][i] == self.adjacency_matrix[i][j]:
                         # Undirected
-                        self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black")
+                        if (i, j) in highlight:
+                            self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black", width=3)
+                        else:
+                            self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black")
                     else:
                         # Directed
-                        self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black", arrow="last")
+                        if (i, j) in highlight:
+                            self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black", arrow="last", width=3)
+                        else:
+                            self.canvas.create_line(p1_edge.x, p1_edge.y, p2_edge.x, p2_edge.y, fill="black", arrow="last")
+
+    def setup_graph(self, start_x, start_y, n):
+        if not self.setup:
+            self.locations = [Point(start_x, start_y) for _ in range(n)]
+
+            max_interations = 50
+
+            for _ in range(max_interations):
+                # print("Physics step")
+                changed = False
+                for i in range(n):
+                    for j in range(n):
+                        p1 = self.locations[i]
+                        if i == j:  # Skip self
+                            continue
+                        p2 = self.locations[j]
+                        dis = p1.distance(p2)
+                        # print(f"Distance between {p1} and {p2} is {dis}")
+                        if dis < self.min_distance:
+                            if dis == 0:
+                                direction_vector = Point(random.randint(0, 10), random.randint(0, 10))
+                            else:
+                                direction_vector = p1 - p2
+                            direction_vector_norm = direction_vector.normalize()
+                            # print(f"direction vec {direction_vector}")
+                            new_p1 = p1 + (direction_vector_norm * self.force)
+                            self.locations[i] = new_p1
+                            changed = True
+                            # print(f"Moved {i} from {p1} to {new_p1}")
+                if not changed:
+                    break  # stop interations if positions have stabalized
+            self.setup = True
