@@ -159,7 +159,7 @@ class BaseGraphView(AbstractPage):
         # Draw edges
         for i in range(n):
             for j in range(n):
-                if self.adjacency_matrix[i][j] == 1:
+                if self.adjacency_matrix[i][j] != 0:
                     # print(f"Draw connection from {self.vertex_data[i]} to {self.vertex_data[j]}")
                     p1 = self.locations[i]
                     p2 = self.locations[j]
