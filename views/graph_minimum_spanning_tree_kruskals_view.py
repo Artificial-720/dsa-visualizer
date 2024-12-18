@@ -2,15 +2,15 @@ import tkinter as tk
 from views.base_graph_view import BaseGraphView
 
 
-class GraphMinimumSpanningTreePrimsView(BaseGraphView):
+class GraphMinimumSpanningTreeKruskalView(BaseGraphView):
 
     # Need more room to show all the nodes with this graph
     CANVAS_WIDTH = 600
     CANVAS_HEIGHT = 600
 
     def __init__(self, parent, controller):
-        self.title = "Prim's Algorithm"
-        self.description = "Prim's algorithm finds the minimum spanning tree of a connected undirected graph."
+        self.title = "Kruskal's Algorithm"
+        self.description = "Kruskal's algorithm finds the minimum spanning tree of a undirected graph."
 
         self.setup_test_graph()
 
@@ -54,42 +54,53 @@ class GraphMinimumSpanningTreePrimsView(BaseGraphView):
 
     def prim_generator(self):
         n = len(self.vertex_data)
-        in_min_tree = [False] * n
-        parents = [-1] * n
-        values = [float('inf')] * n
-        values[0] = 0
+        result = []
+        i = 0
 
-        completed = []
-        highlight = []
+        edges = []
+        # convert adjacency matrix to edge list
+        for u in range(n):
+            for v in range(u + 1, n):
+                if self.adjacency_matrix[u][v] != 0:
+                    edges.append((u, v, self.adjacency_matrix[u][v]))
 
-        for _ in range(n):
-            # Find vertex with lowest value
-            u = None
-            min = float('inf')
-            for v in range(n):
-                if not in_min_tree[v] and values[v] < min:
-                    min = values[v]
-                    u = v
+        # sort by weight
+        edges = sorted(edges, key=lambda i: i[2])
 
-            if u is None:
-                # no more vertices to include
-                break
+        parent = []
+        rank = []
 
-            in_min_tree[u] = True
-            completed.append(u)
+        for node in range(n):
+            parent.append(node)
+            rank.append(0)
 
-            if parents[u] != -1:
-                # has parent add to tree
-                highlight.append((parents[u], u))
+        while i < len(edges):
+            u, v, weight = edges[i]
+            i += 1
+            yield [], [], result
 
-            yield [], completed, highlight
+            # roots of u and v
+            x = self.find(parent, u)
+            y = self.find(parent, v)
 
-            for v in range(n):
-                if 0 < self.adjacency_matrix[u][v] < values[v] and not in_min_tree[v]:
-                    values[v] = self.adjacency_matrix[u][v]
-                    parents[v] = u
-                    yield [u, v], completed, highlight
+            if x != y:
+                result.append((u, v))
+                self.union(parent, rank, x, y)
 
         self.label["text"] += "Done"
 
-        yield [], completed, highlight
+        yield [], [], result
+
+    def find(self, parent, i):
+        if parent[i] != i:
+            parent[i] = self.find(parent, parent[i])
+        return parent[i]
+
+    def union(self, parent, rank, x, y):
+        if rank[x] < rank[y]:
+            parent[x] = y
+        elif rank[x] > rank[y]:
+            parent[y] = x
+        else:
+            parent[y] = x
+            rank[x] += 1

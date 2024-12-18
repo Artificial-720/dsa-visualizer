@@ -27,6 +27,7 @@ from views.graph_cycle_detection_directed_view import GraphCycleDetectionDirecte
 from views.graph_shortest_path_dijkstras_view import GraphShortestPathDijkstrasView
 from views.graph_shortest_path_bellmanford_view import GraphShortestPathBellmanFordView
 from views.graph_minimum_spanning_tree_prims_view import GraphMinimumSpanningTreePrimsView
+from views.graph_minimum_spanning_tree_kruskals_view import GraphMinimumSpanningTreeKruskalView
 
 
 class App(tk.Tk):
@@ -42,7 +43,7 @@ class App(tk.Tk):
         # Dictionary holding instances of each page
         self.frames = {}
 
-        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView, GraphShortestPathDijkstrasView, GraphShortestPathBellmanFordView, GraphMinimumSpanningTreePrimsView]
+        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView, GraphShortestPathDijkstrasView, GraphShortestPathBellmanFordView, GraphMinimumSpanningTreePrimsView, GraphMinimumSpanningTreeKruskalView]
         # Initialize home page last, to include all other pages
         pages.append(HomePage)
 
