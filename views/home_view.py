@@ -4,6 +4,9 @@ import re
 
 class HomePage(tk.Frame):
 
+    COLOR_BG = "grey85"
+    COLOR_SUB_FRAME = "darkgray"
+
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
@@ -17,7 +20,7 @@ class HomePage(tk.Frame):
         button_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
     def _create_button_frame(self):
-        frame = tk.Frame(self, bg="grey", padx=10, pady=10, borderwidth=5, relief="sunken")
+        frame = tk.Frame(self, bg=self.COLOR_BG, padx=10, pady=10, borderwidth=5, relief="sunken")
 
         button = tk.Button(frame, text="Go to Bubble Sort",
                            command=lambda: self.controller.show_frame('BubbleSortView'))
@@ -26,7 +29,7 @@ class HomePage(tk.Frame):
         return frame
 
     def _create_selection_frame(self):
-        frame = tk.Frame(self, bg="grey", borderwidth=5, relief="sunken")
+        frame = tk.Frame(self, bg=self.COLOR_BG, borderwidth=5, relief="sunken")
 
         # Title
         label = tk.Label(frame, text="Data Structures and Algorithms!", justify=tk.LEFT, font=("Arial", 16, "bold"))
@@ -39,7 +42,7 @@ class HomePage(tk.Frame):
         return frame
 
     def _create_list_frame(self, container):
-        frame = tk.Frame(container, bg="blue")
+        frame = tk.Frame(container, bg=self.COLOR_BG)
 
         sub_sections = self.controller.get_subsections()
         row, col = 0, 0
@@ -47,7 +50,7 @@ class HomePage(tk.Frame):
         frame.grid_columnconfigure(1, weight=1)
 
         for group_title in sub_sections.keys():
-            sub_frame = tk.Frame(frame, bg="red", bd=5, relief="ridge")
+            sub_frame = tk.Frame(frame, bg=self.COLOR_SUB_FRAME, bd=5, relief="ridge")
             sub_frame.grid(row=row, column=col, sticky="new", padx=10, pady=10)
             col += 1
             if col > 1:
