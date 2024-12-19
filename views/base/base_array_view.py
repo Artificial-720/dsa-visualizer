@@ -5,8 +5,8 @@ from views.base import AbstractPage
 
 class BaseArrayView(AbstractPage):
 
-    CANVAS_WIDTH = 400
-    CANVAS_HEIGHT = 300
+    CANVAS_WIDTH = 600
+    CANVAS_HEIGHT = 500
     CANVAS_COLOR_CHECKING = "red"
     CANVAS_COLOR_COMPLETED = "green"
     CANVAS_COLOR_NEUTRAL = "gray"
