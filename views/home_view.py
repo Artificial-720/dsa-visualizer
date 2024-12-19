@@ -41,16 +41,32 @@ class HomePage(tk.Frame):
     def _create_list_frame(self, container):
         frame = tk.Frame(container, bg="blue")
 
-        for frame_name in self.controller.get_frames():
-            title = frame_name
-            # Remove view
-            if title.endswith("View"):
-                title = title[:-4]
-            # Add space between words
-            title = re.sub(r"([a-z])([A-Z])", r"\1 \2", title)
+        sub_sections = self.controller.get_subsections()
+        row, col = 0, 0
+        frame.grid_columnconfigure(0, weight=1)
+        frame.grid_columnconfigure(1, weight=1)
 
-            btn = tk.Button(frame, text=title,
-                            command=lambda frame_name=frame_name: self.controller.show_frame(frame_name))
-            btn.pack(anchor="w", padx=5, pady=5)
+        for group_title in sub_sections.keys():
+            sub_frame = tk.Frame(frame, bg="red", bd=5, relief="ridge")
+            sub_frame.grid(row=row, column=col, sticky="new", padx=10, pady=10)
+            col += 1
+            if col > 1:
+                col = 0
+                row += 1
+
+            label = tk.Label(sub_frame, text=group_title, justify=tk.LEFT, font=("Arial", 14, "bold"))
+            label.pack(side=tk.TOP, fill=tk.X)
+
+            for frame_name in sub_sections[group_title]:
+                title = frame_name
+                # Remove view
+                if title.endswith("View"):
+                    title = title[:-4]
+                # Add space between words
+                title = re.sub(r"([a-z])([A-Z])", r"\1 \2", title)
+
+                btn = tk.Button(sub_frame, text=title,
+                                command=lambda frame_name=frame_name: self.controller.show_frame(frame_name))
+                btn.pack(anchor="w", padx=5, pady=5)
 
         return frame
