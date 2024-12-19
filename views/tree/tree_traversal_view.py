@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_tree_view import BaseTreeView, Node
+from views.base import BaseTreeView, Node
 
 
 class TreeTraversalView(BaseTreeView):

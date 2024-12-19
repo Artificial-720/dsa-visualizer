@@ -1,6 +1,6 @@
 import random
 import tkinter as tk
-from views.base_view import AbstractPage
+from views.base import AbstractPage
 
 
 class Node():

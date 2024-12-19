@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_graph_view import BaseGraphView
+from views.base import BaseGraphView
 
 
 class GraphShortestPathBellmanFordView(BaseGraphView):

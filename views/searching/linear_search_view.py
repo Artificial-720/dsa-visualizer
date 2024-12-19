@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_array_view import BaseArrayView
+from views.base import BaseArrayView
 
 
 class LinearSearchView(BaseArrayView):
