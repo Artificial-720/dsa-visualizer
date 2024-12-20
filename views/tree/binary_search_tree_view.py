@@ -51,7 +51,8 @@ class BinarySearchTreeView(BaseTreeView):
         search_box.pack()
 
         # Button to start binary search
-        tk.Button(control_frame, text="Binary Search", command=self.binary_search_button).pack()
+        self.button = tk.Button(control_frame, text="Binary Search", command=self.binary_search_button)
+        self.button.pack()
 
         return control_frame
 
