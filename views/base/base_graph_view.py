@@ -92,9 +92,15 @@ class BaseGraphView(AbstractPage):
                 self.after(self.animation_delay, step)
             except StopIteration:
                 self.animation_finished = True
+                self.set_button_state("active")
 
-        # Inital start of animation
+        # Initial start of animation
+        self.set_button_state("disabled")
         step()
+
+    def set_button_state(self, state):
+        if hasattr(self, 'button'):
+            self.button.config(state=state)
 
     def draw(self, checking=[], checked=[], highlight=[]):
         # Clear canvas
