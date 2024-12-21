@@ -1,4 +1,4 @@
-from views.base_array_view import BaseArrayView
+from views.base import BaseArrayView
 
 
 class BubbleSortView(BaseArrayView):

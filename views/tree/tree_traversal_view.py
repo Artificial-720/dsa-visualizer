@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_tree_view import BaseTreeView, Node
+from views.base import BaseTreeView, Node
 
 
 class TreeTraversalView(BaseTreeView):
@@ -49,14 +49,23 @@ class TreeTraversalView(BaseTreeView):
         button_frame = tk.Frame(control_frame)
         button_frame.pack()
         # Buttons
-        tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal_button).grid(row=0, column=0, padx=10)
-        tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal_button).grid(row=0, column=1, padx=10)
-        tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal_button).grid(row=0, column=2, padx=10)
+        self.btn1 = tk.Button(button_frame, text="Pre-order Traversal", command=self.pre_order_traversal_button)
+        self.btn1.grid(row=0, column=0, padx=10)
+        self.btn2 = tk.Button(button_frame, text="In-order Traversal", command=self.in_order_traversal_button)
+        self.btn2.grid(row=0, column=1, padx=10)
+        self.btn3 = tk.Button(button_frame, text="Post-order Traversal", command=self.post_order_traversal_button)
+        self.btn3.grid(row=0, column=2, padx=10)
 
         return control_frame
 
     def pre_order_traversal_button(self):
         self.animate(self.pre_order_traversal_generator(self.root))
+
+    def set_button_state(self, state):
+        # Override
+        self.btn1.config(state=state)
+        self.btn2.config(state=state)
+        self.btn3.config(state=state)
 
     def pre_order_traversal_generator(self, node):
         # Result: R,A,C,D,B,E,F,G

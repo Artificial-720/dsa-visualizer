@@ -1,7 +1,7 @@
 import string
 import random
 import tkinter as tk
-from views.base_tree_view import BaseTreeView, Node
+from views.base import BaseTreeView, Node
 
 
 class AVLTreeNode(Node):
@@ -22,11 +22,11 @@ class AVLTreeView(BaseTreeView):
         super().__init__(parent, controller)
 
     def create_controls_frame(self, container):
-        control_frame = tk.Frame(container, bg="green")
+        control_frame = tk.Frame(container)
 
         # Button to start binary search
         self.button = tk.Button(control_frame, text="Insert", command=self.button_event)
-        self.button.pack()
+        self.button.pack(pady=20)
 
         return control_frame
 

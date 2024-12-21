@@ -18,11 +18,10 @@ To get started, follow these steps:
    cd dsa-visualizer
    ```
 
-2. **Install Requirements**:
-   Ensure you have Python 3 installed. You can install the required libraries with:
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. **Install Dependencies**: Ensure Python is installed and Tkinter is available on your system. You may need to install Tkinter:
+    ```bash
+    sudo apt-get install python3-tk
+    ```
 
 3. **Run the Visualizer**:
    ```bash
@@ -42,13 +41,6 @@ To get started, follow these steps:
 
 - **Sorting**: Bubble Sort, Insertion Sort, Selection Sort, Merge Sort, Quick Sort, Counting Sort, and Radix Sort
 - **Searching**: Linear Search, Binary Search
+- **Minimum Spanning Tree**: Kruskal's, Prim's
+- **Shortest Path**: Bellman ford, Dijkstra's
 
-
-
-## tkinker setup
-
-Might need to install tkinker
-
-```bash
-sudo apt-get install python3-tk
-```

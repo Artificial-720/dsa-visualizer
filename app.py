@@ -1,33 +1,36 @@
 import tkinter as tk
-from views.home_view import HomePage
+from views import HomePage
 
 # Array
-from views.bubble_sort_view import BubbleSortView
-from views.selection_sort_view import SelectionSortView
-from views.insertion_sort_view import InsertionSortView
-from views.merge_sort_view import MergeSortView
-from views.counting_sort_view import CountingSortView
-from views.radix_sort_view import RadixSortView
-from views.quick_sort_view import QuickSortView
-from views.linear_search_view import LinearSearchView
-from views.binary_search_view import BinarySearchView
+from views import (
+    BubbleSortView,
+    CountingSortView,
+    InsertionSortView,
+    MergeSortView,
+    QuickSortView,
+    RadixSortView,
+    SelectionSortView,
 
-from views.stack_view import StackView
-from views.queue_view import QueueView
+    LinearSearchView,
+    BinarySearchView,
 
-from views.linked_list_view import LinkedListView
 
-from views.tree_traversal_view import TreeTraversalView
-from views.binary_search_tree_view import BinarySearchTreeView
-from views.avl_tree_view import AVLTreeView
+    GraphCycleDetectionDirectedView,
+    GraphCycleDetectionUndirectedView,
+    GraphMinimumSpanningTreeKruskalView,
+    GraphMinimumSpanningTreePrimsView,
+    GraphShortestPathBellmanFordView,
+    GraphShortestPathDijkstrasView,
+    GraphTraversalView,
 
-from views.graph_traversal_view import GraphTraversalView
-from views.graph_cycle_detection_undirected_view import GraphCycleDetectionUndirectedView
-from views.graph_cycle_detection_directed_view import GraphCycleDetectionDirectedView
-from views.graph_shortest_path_dijkstras_view import GraphShortestPathDijkstrasView
-from views.graph_shortest_path_bellmanford_view import GraphShortestPathBellmanFordView
-from views.graph_minimum_spanning_tree_prims_view import GraphMinimumSpanningTreePrimsView
-from views.graph_minimum_spanning_tree_kruskals_view import GraphMinimumSpanningTreeKruskalView
+    AVLTreeView,
+    BinarySearchTreeView,
+    TreeTraversalView,
+
+    LinkedListView,
+    QueueView,
+    StackView
+)
 
 
 class App(tk.Tk):
@@ -40,21 +43,37 @@ class App(tk.Tk):
         container = tk.Frame(self)
         container.pack(fill="both", expand=True)
 
+        # Dictionary holding page groupings
+        self.subsections = {}
+
         # Dictionary holding instances of each page
         self.frames = {}
 
-        pages = [BubbleSortView, SelectionSortView, InsertionSortView, MergeSortView, CountingSortView, RadixSortView, QuickSortView, LinearSearchView, BinarySearchView, StackView, QueueView, LinkedListView, TreeTraversalView, BinarySearchTreeView, AVLTreeView, GraphTraversalView, GraphCycleDetectionUndirectedView, GraphCycleDetectionDirectedView, GraphShortestPathDijkstrasView, GraphShortestPathBellmanFordView, GraphMinimumSpanningTreePrimsView, GraphMinimumSpanningTreeKruskalView]
-        # Initialize home page last, to include all other pages
-        pages.append(HomePage)
+        sorting = [BubbleSortView, CountingSortView, InsertionSortView, MergeSortView, QuickSortView, RadixSortView, SelectionSortView]
+        self.init_view("Sorting", sorting, container)
+        searching = [BinarySearchView, LinearSearchView]
+        self.init_view("Searching", searching, container)
+        graph = [GraphCycleDetectionDirectedView, GraphCycleDetectionUndirectedView, GraphMinimumSpanningTreeKruskalView, GraphMinimumSpanningTreePrimsView, GraphShortestPathBellmanFordView, GraphShortestPathDijkstrasView, GraphTraversalView]
+        self.init_view("Graphs", graph, container)
+        tree = [AVLTreeView, BinarySearchTreeView, TreeTraversalView]
+        self.init_view("Tree", tree, container)
+        data_stuct = [LinkedListView, QueueView, StackView]
+        self.init_view("Data Structures", data_stuct, container)
 
+        # Initialize home page last, to include all other pages
+        self.init_view(None, [HomePage], container)
+
+        # Show home page
+        self.show_frame('HomePage')
+
+    def init_view(self, grouping, pages, container):
         # Initialize each view saving in dictionary
         for F in pages:
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-        # Show home page
-        self.show_frame('HomePage')
+            if grouping is not None:
+                self.subsections.setdefault(grouping, []).append(F.__name__)
 
     def show_frame(self, page_name):
         """
@@ -67,3 +86,7 @@ class App(tk.Tk):
     def get_frames(self):
         """Returns frame names"""
         return self.frames.keys()
+
+    def get_subsections(self):
+        """Returns dictionary with sections"""
+        return self.subsections

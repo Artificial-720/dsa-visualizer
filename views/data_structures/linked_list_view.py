@@ -1,6 +1,6 @@
 import random
 import tkinter as tk
-from views.base_view import AbstractPage
+from views.base import AbstractPage
 
 
 class Node():
@@ -16,6 +16,9 @@ class LinkedListView(AbstractPage):
 
     DATA_MIN = 1
     DATA_MAX = 20
+
+    TITLE = "Linked List"
+    DESCRIPTION = "Linked list consists of nodes that hold some data and a pointer which points to the next node in the list."
 
     def __init__(self, parent, controller):
         self.head = None
@@ -39,13 +42,20 @@ class LinkedListView(AbstractPage):
     def create_info_frame(self):
         """Implement create_info_frame. Creates and configures the information frame."""
         frame = tk.Frame(self, bg=self.COLOR_BG, pady=10, padx=10)
-        self.canvas = tk.Canvas(frame, width=self.CANVAS_WIDTH, height=self.CANVAS_HEIGHT, bg="white")
-        self.canvas.pack(pady=20)
 
-        # Frame to hold input box and result text
-        control_frame = tk.Frame(frame)
-        control_frame.pack()
+        tk.Label(frame, text=self.TITLE, font=("Arial", 18)).pack(pady=10, anchor=tk.W)
+        tk.Label(frame, text=self.DESCRIPTION, wraplength=500, justify="left").pack(anchor=tk.W)
 
+        self.canvas = tk.Canvas(frame, width=self.CANVAS_WIDTH, height=self.CANVAS_HEIGHT, borderwidth=1, relief="solid")
+        self.canvas.pack(side=tk.TOP, anchor=tk.W, pady=20)
+
+        self.create_controls_frame(frame)
+
+        return frame
+
+    def create_controls_frame(self, container):
+        control_frame = tk.Frame(container)
+        control_frame.pack(side=tk.TOP, anchor=tk.W)
         # label for output
         self.label = tk.Label(control_frame, text="")
         self.label.pack(pady=10, anchor=tk.W)
@@ -55,8 +65,8 @@ class LinkedListView(AbstractPage):
         index_box.pack()
 
         # Frame to hold buttons
-        button_frame = tk.Frame(frame)
-        button_frame.pack()
+        button_frame = tk.Frame(container)
+        button_frame.pack(side=tk.TOP, anchor=tk.W, pady=20)
 
         # Buttons
         tk.Button(button_frame, text="Add Node Head", command=lambda: self.add_node(0)).grid(row=0, column=0, padx=10)
@@ -66,14 +76,6 @@ class LinkedListView(AbstractPage):
         tk.Button(button_frame, text="Remove Node Head", command=lambda: self.remove_node(0)).grid(row=1, column=0, padx=10)
         tk.Button(button_frame, text="Remove Node Tail", command=lambda: self.remove_node(self.node_count - 1)).grid(row=1, column=1, padx=10)
         tk.Button(button_frame, text="Remove Node Index", command=lambda: self.remove_node(self.index.get())).grid(row=1, column=2, padx=10)
-
-        # self.delete_button = tk.Button(button_frame, text="Delete Node", command=self.delete_node)
-        # self.delete_button.grid(row=0, column=1, padx=10)
-
-        # self.reset_button = tk.Button(button_frame, text="Reset List", command=self.reset_list)
-        # self.reset_button.grid(row=0, column=2, padx=10)
-
-        return frame
 
     def draw(self):
         # Clear canvas

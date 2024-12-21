@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_graph_view import BaseGraphView
+from views.base import BaseGraphView
 
 
 class GraphMinimumSpanningTreeKruskalView(BaseGraphView):
@@ -46,13 +46,14 @@ class GraphMinimumSpanningTreeKruskalView(BaseGraphView):
         # Buttons
         button_frame = tk.Frame(controls_frame)
         button_frame.pack()
-        tk.Button(button_frame, text="Run Prim's", command=self.prim_button).grid(row=0, column=0, padx=10)
+        self.button = tk.Button(button_frame, text="Run Kruskal's", command=self.kruskal_button)
+        self.button.grid(row=0, column=0, padx=10)
         return controls_frame
 
-    def prim_button(self):
-        self.animate(self.prim_generator())
+    def kruskal_button(self):
+        self.animate(self.kruskal_generator())
 
-    def prim_generator(self):
+    def kruskal_generator(self):
         n = len(self.vertex_data)
         result = []
         i = 0

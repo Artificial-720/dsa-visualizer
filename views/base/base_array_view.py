@@ -1,13 +1,13 @@
-import time
+import math
 import random
 import tkinter as tk
-from views.base_view import AbstractPage
+from views.base import AbstractPage
 
 
 class BaseArrayView(AbstractPage):
 
-    CANVAS_WIDTH = 400
-    CANVAS_HEIGHT = 300
+    CANVAS_WIDTH = 600
+    CANVAS_HEIGHT = 500
     CANVAS_COLOR_CHECKING = "red"
     CANVAS_COLOR_COMPLETED = "green"
     CANVAS_COLOR_NEUTRAL = "gray"
@@ -19,10 +19,10 @@ class BaseArrayView(AbstractPage):
     BAR_SPACING = 2
     SPEED_MAX = 1
     SPEED_MIN = 500
-    SPEED_DEFAULT = 25
+    SPEED_DEFAULT = 350
     COUNT_MAX = 5
-    COUNT_MIN = 50
-    COUNT_DEFAULT = 15
+    COUNT_MIN = 100
+    COUNT_DEFAULT = 25
 
     TITLE = ""
     DESCRIPTION = ""
@@ -132,13 +132,20 @@ class BaseArrayView(AbstractPage):
             try:
                 checking, completed = next(gen)
                 self._draw_bars(checking, completed)
-                self.after(int(self.speed_var.get()), step)
+                self.after(int(self._calc_speed()), step)
             except StopIteration:
                 self.button.config(text="Reset", state="active")
                 self.animation_finished = True
 
-        # Inital start of animation
+        # Initial start of animation
         step()
+
+    def _calc_speed(self):
+        raw_speed = self.speed_var.get()
+        min_speed = 1
+        max_speed = 1000
+        scaled = max_speed - (max_speed - min_speed) * (math.log(500 - raw_speed + 1) / math.log(500))
+        return scaled
 
     def algorithm_generator(self):
         """Yield steps for the algorithm. This method should be implemented by subclasses."""

@@ -1,7 +1,7 @@
 import random
 import math
 import tkinter as tk
-from views.base_view import AbstractPage
+from views.base import AbstractPage
 
 
 class Point():
@@ -29,7 +29,7 @@ class Point():
         """Returns a normalized vector (unit vector)."""
         mag = self.magnitude()
         if mag == 0:  # prevent ZeroDivisionError
-            return Point(1, 1)
+            return Point(0, 0)
         return self / mag
 
     def __str__(self):
@@ -37,6 +37,9 @@ class Point():
 
     def distance(self, other):
         return math.sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
+
+    def __eq__(self, other):
+        return (self.x == other.x) and (self.y == other.y)
 
 
 class BaseGraphView(AbstractPage):
@@ -92,9 +95,15 @@ class BaseGraphView(AbstractPage):
                 self.after(self.animation_delay, step)
             except StopIteration:
                 self.animation_finished = True
+                self.set_button_state("active")
 
-        # Inital start of animation
+        # Initial start of animation
+        self.set_button_state("disabled")
         step()
+
+    def set_button_state(self, state):
+        if hasattr(self, 'button'):
+            self.button.config(state=state)
 
     def draw(self, checking=[], checked=[], highlight=[]):
         # Clear canvas
@@ -182,9 +191,11 @@ class BaseGraphView(AbstractPage):
                             direction_vector_norm = direction_vector.normalize()
                             # print(f"direction vec {direction_vector}")
                             new_p1 = p1 + (direction_vector_norm * self.force)
+                            new_p1.x = max(0, min(new_p1.x, self.canvas.winfo_width() - self.node_diameter))
+                            new_p1.y = max(0, min(new_p1.y, self.canvas.winfo_height() - self.node_diameter))
                             self.locations[i] = new_p1
                             changed = True
                             # print(f"Moved {i} from {p1} to {new_p1}")
                 if not changed:
-                    break  # stop interations if positions have stabalized
+                    break  # stop iterations if positions have stabilized
             self.setup = True

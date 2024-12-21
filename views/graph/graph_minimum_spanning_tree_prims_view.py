@@ -1,5 +1,5 @@
 import tkinter as tk
-from views.base_graph_view import BaseGraphView
+from views.base import BaseGraphView
 
 
 class GraphMinimumSpanningTreePrimsView(BaseGraphView):
@@ -46,7 +46,8 @@ class GraphMinimumSpanningTreePrimsView(BaseGraphView):
         # Buttons
         button_frame = tk.Frame(controls_frame)
         button_frame.pack()
-        tk.Button(button_frame, text="Run Prim's", command=self.prim_button).grid(row=0, column=0, padx=10)
+        self.button = tk.Button(button_frame, text="Run Prim's", command=self.prim_button)
+        self.button.grid(row=0, column=0, padx=10)
         return controls_frame
 
     def prim_button(self):
